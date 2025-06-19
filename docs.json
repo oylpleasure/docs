@@ -52,19 +52,39 @@
         "tab": "Alkanes",
         "groups": [
           {
-            "group": "Learn",
+            "group": "LEARN",
             "pages": [
               "Alkanes/learn/alkanes",
-              "Alkanes/learn/intro",
+              "Alkanes/developers/contracts-building",
+              "Alkanes/learn/metashrew",
+              "Alkanes/learn/what-can-we-build",
+              "Alkanes/learn/diesel",
               "Alkanes/learn/faq"
             ]
           },
           {
-            "group": "Developers",
+            "group": "BLOG & UPDATES",
             "pages": [
-              "Alkanes/developers/quickstart",
-              "Alkanes/developers/rpc",
-              "Alkanes/developers/contracts-building"
+              "Alkanes/learn/smart-contracts-on-bitcoin",
+              "Alkanes/learn/weapons-grade-metaprotocols"
+            ]
+          },
+          {
+            "group": "USE CASES",
+            "pages": [
+              "Alkanes/learn/subfrost",
+              "Alkanes/learn/bound-stablecoin",
+              "Alkanes/learn/oyl-amm",
+              "Alkanes/learn/starkware",
+              "Alkanes/learn/laser-eyes",
+              "Alkanes/learn/beyond"
+            ]
+          },
+          {
+            "group": "BACKGROUND",
+            "pages": [
+              "Alkanes/learn/background/metaprotocols",
+              "Alkanes/learn/background/glossary"
             ]
           }
         ]
