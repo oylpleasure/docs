@@ -11,13 +11,13 @@ With your wallet set up, you’re ready to access the Oyl decentralized applicat
 
 **Step 1.1:** Visit [app.oyl.io](https://app.oyl.io) in your browser.
 
-![Oyl Dapp](../../static/img/app.oyl.io.png)
+![Oyl Dapp](/images/app.oyl.io.png)
 
 ## 2. Enter Your Access Password
 
 **Step 2.1:** You will see a password screen.
 
-![Password Input](../../static/img/passwordinput.png)
+![Password Input](/images/passwordinput.png)
 
 :::info Access Password
 
@@ -32,7 +32,7 @@ Wider access will be rolled out in future phases.
 
 **Step 3.1:** After logging in, you'll be welcomed to the app.
 
-![Welcome to Oyl App](../../static/img/Welcometoapp.png)
+![Welcome to Oyl App](/images/Welcometoapp.png)
 
 **Welcome to Oyl!**
 

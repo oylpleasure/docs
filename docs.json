@@ -16,7 +16,6 @@
           {
             "group": "User Guides",
             "pages": [
-              "index",
               "AMM/getting-started/welcome-to-oyl",
               "AMM/oylnet",
               "AMM/getting-started/setup-your-wallet",
@@ -37,7 +36,9 @@
             "group": "Developer Docs",
             "pages": [
               "AMM/developer/overview",
-              "AMM/developer/smart-contracts"
+              "AMM/developer/contracts",
+              "AMM/developer/sdk",
+              "AMM/developer/api"
             ]
           }
         ]
@@ -48,44 +49,22 @@
           {
             "group": "Learn",
             "pages": [
-              "Alkanes/learn/intro",
-              "Alkanes/learn/alkanes",
-              "Alkanes/learn/faq"
+              "Alkanes/learn/introduction-to-alkanes",
+              "Alkanes/learn/core-concepts",
+              "Alkanes/learn/architecture"
             ]
           },
           {
             "group": "Developers",
             "pages": [
-              "Alkanes/developers/intro",
-              "Alkanes/developers/setup",
-              "Alkanes/developers/quickstart",
-              "Alkanes/developers/rpc",
-              "Alkanes/developers/contracts-building",
-              "Alkanes/developers/token"
+              "Alkanes/developers/getting-started",
+              "Alkanes/developers/api-reference",
+              "Alkanes/developers/tutorials"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",

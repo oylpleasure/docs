@@ -5,9 +5,16 @@ slug: /getting-started/welcome
 
 # What is Oyl Corp?
 
-import OylCorpVideo from '@site/src/components/OylCorpVideo';
-
-<OylCorpVideo />
+<video
+  src="/images/oylcorplogo.mp4"
+  autoPlay
+  loop
+  muted
+  playsInline
+  style={{ width: '100%', display: 'block', paddingBottom: '28px' }}
+  tabIndex={-1}
+>
+</video>
 
 Oyl Corp is the company behind a suite of open source infrastructure designed to unlock the next stage of unstoppable programmability on Bitcoin.
 

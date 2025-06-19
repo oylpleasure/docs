@@ -3,7 +3,7 @@ title: Setup Your Wallet
 slug: /getting-started/setup-your-wallet
 ---
 
-import BuilderBlueprintVideo from '@site/src/components/BuilderBlueprintVideo';
+
 
 # Setup Your Wallet
 
@@ -16,11 +16,19 @@ import BuilderBlueprintVideo from '@site/src/components/BuilderBlueprintVideo';
 
 :::
 
-<BuilderBlueprintVideo />
+<video
+  src="/images/builderblueprint.mp4"
+  autoPlay
+  loop
+  muted
+  playsInline
+  style={{ width: '100%', display: 'block' }}
+  tabIndex={-1}
+/>
 
 ## 1. Download Oyl Wallet
 
-[![Download Oyl Wallet from Chrome Web Store](../../static/img/Chromestore.png)](https://chromewebstore.google.com/detail/oyl-wallet-bitcoin-ordina/ilolmnhjbbggkmopnemiphomhaojndmb)
+[![Download Oyl Wallet from Chrome Web Store](/images/Chromestore.png)](https://chromewebstore.google.com/detail/oyl-wallet-bitcoin-ordina/ilolmnhjbbggkmopnemiphomhaojndmb)
 
 **[Click here to download Oyl Wallet for Chrome](https://chromewebstore.google.com/detail/oyl-wallet-bitcoin-ordina/ilolmnhjbbggkmopnemiphomhaojndmb)**
 
@@ -33,7 +41,7 @@ Oyl Wallet is available as a browser extension. Use the button or link above to 
 1. Click the download button or link above.
 2. Click **Add to Chrome** and follow the prompts.
 
-![Chrome Permissions Warning](../../static/img/chromewarning.png)
+![Chrome Permissions Warning](/images/chromewarning.png)
 
 When installing Oyl Wallet, Chrome will show a permissions warning. **You must accept these permissions to continue.**
 
@@ -58,7 +66,7 @@ Once you’ve installed the Oyl Wallet extension, follow these steps to create y
 
 **Step 1.3:** Set a secure password when prompted.
 
-![Create Wallet](../../static/img/createnew.png)
+![Create Wallet](/images/createnew.png)
 
 ---
 
@@ -68,7 +76,7 @@ Once you’ve installed the Oyl Wallet extension, follow these steps to create y
 
 **Step 2.2:** Never share your seed phrase with anyone.
 
-![Export Seed](../../static/img/exortseed.png)
+![Export Seed](/images/exortseed.png)
 
 ---
 
@@ -76,7 +84,7 @@ Once you’ve installed the Oyl Wallet extension, follow these steps to create y
 
 After creating your wallet and backing up your seed phrase, you'll be greeted by the Oyl Wallet interface.
 
-![Meet Oyl Wallet](../../static/img/meetoylwallet.png)
+![Meet Oyl Wallet](/images/meetoylwallet.png)
 
 ---
 
@@ -84,7 +92,7 @@ After creating your wallet and backing up your seed phrase, you'll be greeted by
 
 **Step 4.1:** After setup, make sure you are connected to **OylNet** (the Oyl test network).
 
-![Switch to Oyl Network](../../static/img/switchtooylnet.png)
+![Switch to Oyl Network](/images/switchtooylnet.png)
 
 Once you acquire test tokens on OylNet, you’ll be able to **view, send, and receive them using the Oyl Wallet just like mainnet tokens**. This allows you to fully explore wallet features and Dapp interactions in a risk-free environment.
 
