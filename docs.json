@@ -14,12 +14,17 @@
         "tab": "AMM",
         "groups": [
           {
-            "group": "User Guides",
+            "group": "Getting Started",
             "pages": [
               "AMM/getting-started/welcome-to-oyl",
               "AMM/oylnet",
               "AMM/getting-started/setup-your-wallet",
-              "AMM/getting-started/access-the-dapp",
+              "AMM/getting-started/access-the-dapp"
+            ]
+          },
+          {
+            "group": "User Guides",
+            "pages": [
               "AMM/connect-wallet",
               "AMM/portfolio",
               "AMM/get-test-bitcoin",
