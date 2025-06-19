@@ -92,8 +92,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/images/OylswapLogo.png",
+    "dark": "/images/OylswapLogo.png"
   },
   "navbar": {
     "links": [
