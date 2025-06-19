@@ -54,8 +54,8 @@
           {
             "group": "Learn",
             "pages": [
-              "Alkanes/learn/intro",
               "Alkanes/learn/alkanes",
+              "Alkanes/learn/intro",
               "Alkanes/learn/faq"
             ]
           },
