@@ -1,55 +1,67 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Oyl Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#5D5FEF",
+    "light": "#7C7DFF",
+    "dark": "#4B4DDE"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "AMM",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "User Guides",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "AMM/getting-started/welcome-to-oyl",
+              "AMM/oylnet",
+              "AMM/getting-started/setup-your-wallet",
+              "AMM/getting-started/access-the-dapp",
+              "AMM/connect-wallet",
+              "AMM/portfolio",
+              "AMM/get-test-bitcoin",
+              "AMM/wrap-bitcoin",
+              "AMM/mint-tokens",
+              "AMM/swap",
+              "AMM/pool",
+              "AMM/tokens",
+              "AMM/send",
+              "AMM/receive"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Developer Docs",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "AMM/developer/overview",
+              "AMM/developer/smart-contracts"
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "Alkanes",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Learn",
             "pages": [
-              "api-reference/introduction"
+              "Alkanes/learn/intro",
+              "Alkanes/learn/alkanes",
+              "Alkanes/learn/faq"
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Developers",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "Alkanes/developers/intro",
+              "Alkanes/developers/setup",
+              "Alkanes/developers/quickstart",
+              "Alkanes/developers/rpc",
+              "Alkanes/developers/contracts-building",
+              "Alkanes/developers/token"
             ]
           }
         ]

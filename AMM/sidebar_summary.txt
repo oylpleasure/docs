@@ -1,0 +1,27 @@
+# AMM Sidebar Structure
+
+This document outlines the sidebar structure for the AMM section of the documentation.
+
+## User Guides
+
+- Welcome to Oyl
+- Oylnet Test Network
+- Setup Your Wallet
+- Access the dApp
+- Connect Wallet
+- Portfolio
+- Get Test Bitcoin
+- Wrap Bitcoin
+- Mint Tokens
+- Swap
+- Pool
+- Tokens
+- Send
+- Receive
+
+## Developer Docs
+
+- Overview
+- Contracts
+- SDK
+- API

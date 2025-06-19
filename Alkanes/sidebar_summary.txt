@@ -1,0 +1,15 @@
+# Alkanes Sidebar Structure
+
+This document outlines the sidebar structure for the Alkanes section of the documentation.
+
+## Learn
+
+- Introduction to Alkanes
+- Core Concepts
+- Architecture
+
+## Developers
+
+- Getting Started
+- API Reference
+- Tutorials

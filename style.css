@@ -1,0 +1,59 @@
+/* Custom CSS for Oyl Documentation - Mintlify */
+
+/* 
+  Temporarily commented out custom styles to check base theme rendering.
+  We will uncomment and refine these later.
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #FFFFFF; 
+  color: #1F2937; 
+}
+
+body.dark {
+  background-color: #030712; 
+  color: #E5E7EB; 
+}
+
+nav[role="navigation"] {
+  background-color: #0D1117 !important; 
+  width: 280px !important; 
+  border-right: 1px solid #374151; 
+}
+
+nav[role="navigation"] a {
+  color: #D1D5DB !important; 
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+nav[role="navigation"] a:hover {
+  background-color: #1F2937 !important; 
+  color: #FFFFFF !important;
+}
+
+nav[role="navigation"] a.active,
+nav[role="navigation"] a[aria-current="page"] {
+  background-color: #5D5FEF !important; 
+  color: #FFFFFF !important;
+  font-weight: 600;
+}
+
+main {
+  padding: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+pre[class*="language-"] {
+  border-radius: 6px;
+  padding: 1em;
+}
+*/
+
+/* Add refined styles below this line once base theme is confirmed */

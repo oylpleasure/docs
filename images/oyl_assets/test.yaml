@@ -1,0 +1,98 @@
+openapi: 3.1.0
+info:
+  title: Oyl API
+  description: |-
+    Oyl API
+  version: 0.1.0
+paths:
+  /inscriptions:
+    post:
+      summary: Return inscriptions for a given block height and page index
+      description: ''
+      operationId: updatePetWithForm
+      parameters:
+        - name: block_height
+          in: query
+          description: Block height
+          required: true
+          schema:
+            type: integer
+        - name: page_index
+          in: query
+          description: Page index
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              required:
+                - jsonrpc
+                - id
+                - method
+                - params
+              type: object
+              properties:
+                jsonrpc:
+                  type: string
+                  examples: [2.0]
+                id:
+                  type: integer
+                  format: int64
+                  examples: [3]
+                method:
+                  type: string
+                  examples: [inscriptions]
+                params:
+                  type: array
+                  items:
+                    block_height:
+                      type: string
+                    examples: ["102234"] 
+                    page_index:
+                      type: string
+                      examples: ["102234"] 
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                required:
+                  - name
+                  - photoUrls
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    examples: [10]
+                  inscription:
+                    type: string
+                    examples: [12000222]
+                  type:
+                    type: array
+                    xml:
+                      wrapped: true
+                    items:
+                      type: string
+                      xml:
+                        name: photoUrl
+                  status:
+                    type: string
+                    description: pending
+                    enum:
+                      - available
+                      - pending
+                      - sold
+                xml:
+                  name: pet
+        '400':
+          description: Invalid inscription
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
