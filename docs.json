@@ -54,17 +54,17 @@
           {
             "group": "Learn",
             "pages": [
-              "Alkanes/learn/introduction-to-alkanes",
-              "Alkanes/learn/core-concepts",
-              "Alkanes/learn/architecture"
+              "Alkanes/learn/intro",
+              "Alkanes/learn/alkanes",
+              "Alkanes/learn/faq"
             ]
           },
           {
             "group": "Developers",
             "pages": [
-              "Alkanes/developers/getting-started",
-              "Alkanes/developers/api-reference",
-              "Alkanes/developers/tutorials"
+              "Alkanes/developers/quickstart",
+              "Alkanes/developers/rpc",
+              "Alkanes/developers/contracts-building"
             ]
           }
         ]
