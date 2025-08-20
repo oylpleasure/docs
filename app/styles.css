@@ -1,0 +1,110 @@
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --muted: rgba(255,255,255,0.7);
+  --accent: #15c;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+}
+
+.camera-app {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.top-bar, .bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top) 16px 8px 16px;
+}
+.bottom-bar { padding: 8px 16px env(safe-area-inset-bottom) 16px; }
+
+.brand-pill {
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  color: var(--fg);
+  background: rgba(255,255,255,0.12);
+  border: 0;
+}
+
+.viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+video, canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.viewport.mirrored video,
+.viewport.mirrored canvas {
+  transform: scaleX(-1);
+}
+
+.gesture-badge {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(10px);
+  color: var(--fg);
+  font-weight: 600;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.gesture-badge.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+.hidden { display: none; }
+
+.shutter {
+  margin: 0 auto;
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+  font-weight: 600;
+}
+.shutter span { font-size: 13px; opacity: .85; }
+
+@media (min-width: 768px) {
+  .gesture-badge { bottom: 120px; }
+}
+
