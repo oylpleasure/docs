@@ -69,25 +69,6 @@ video, canvas {
   transform: scaleX(-1);
 }
 
-.gesture-badge {
-  position: absolute;
-  left: 50%;
-  bottom: 96px;
-  transform: translateX(-50%);
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(10px);
-  color: var(--fg);
-  font-weight: 600;
-  font-size: 18px;
-  opacity: 0;
-  transition: opacity .25s ease, transform .25s ease;
-}
-.gesture-badge.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-4px);
-}
 .hidden { display: none; }
 
 .shutter {
@@ -105,6 +86,5 @@ video, canvas {
 .shutter span { font-size: 13px; opacity: .85; }
 
 @media (min-width: 768px) {
-  .gesture-badge { bottom: 120px; }
 }
 
