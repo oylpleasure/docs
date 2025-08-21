@@ -13,6 +13,12 @@ let running = false;
 let facingMode = 'user';
 let stream = null;
 
+// Exponential smoothing for landmark jitter
+const smoothState = {
+  landmarks: null,
+  alpha: 0.35
+};
+
 async function ensureHandLandmarker() {
   if (handLandmarker) return handLandmarker;
   if (!filesetResolver) {
@@ -76,22 +82,81 @@ function stopCamera() {
   stream = null;
 }
 
-function drawLandmarks(landmarks) {
-  ctx.clearRect(0, 0, overlay.width, overlay.height);
-  if (!landmarks) return;
-  const drawer = new DrawingUtils(ctx);
-  // Dot-only overlay with subtle glow
-  ctx.save();
-  ctx.shadowColor = 'rgba(0,229,255,0.8)';
-  ctx.shadowBlur = 8;
-  drawer.drawLandmarks(landmarks, { color: '#00E5FF', lineWidth: 0, radius: 3.2 });
-  ctx.restore();
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function smoothLandmarks(raw) {
+  if (!raw) return null;
+  if (!smoothState.landmarks) {
+    smoothState.landmarks = raw.map(p => ({ x: p.x, y: p.y, z: p.z ?? 0 }));
+    return smoothState.landmarks;
+  }
+  const out = smoothState.landmarks;
+  const a = smoothState.alpha;
+  for (let i = 0; i < raw.length; i++) {
+    out[i].x = lerp(out[i].x, raw[i].x, a);
+    out[i].y = lerp(out[i].y, raw[i].y, a);
+    out[i].z = lerp(out[i].z, raw[i].z ?? 0, a);
+  }
+  return out;
 }
 
-function distance(a, b) {
-  const dx = a.x - b.x;
-  const dy = a.y - b.y;
-  return Math.hypot(dx, dy);
+function project(pt) {
+  return { x: pt.x * overlay.width, y: pt.y * overlay.height };
+}
+
+// Build a stable triangulation per frame using indices for MediaPipe's 21 points
+// We'll use Delaunator on projected 2D points for a pleasant glove mesh.
+function drawGloveMesh(pts) {
+  ctx.clearRect(0, 0, overlay.width, overlay.height);
+  if (!pts || pts.length < 3) return;
+
+  const points2D = pts.map(project).map(p => [p.x, p.y]);
+  const delaunay = Delaunator.from(points2D);
+  const tris = delaunay.triangles;
+
+  ctx.save();
+  ctx.globalAlpha = 0.85;
+  // Fill
+  ctx.fillStyle = 'rgba(0, 229, 255, 0.15)';
+  for (let i = 0; i < tris.length; i += 3) {
+    const a = points2D[tris[i]];
+    const b = points2D[tris[i + 1]];
+    const c = points2D[tris[i + 2]];
+    ctx.beginPath();
+    ctx.moveTo(a[0], a[1]);
+    ctx.lineTo(b[0], b[1]);
+    ctx.lineTo(c[0], c[1]);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // Stroke
+  ctx.strokeStyle = 'rgba(0, 229, 255, 0.6)';
+  ctx.lineWidth = 1.2;
+  ctx.shadowColor = 'rgba(0, 229, 255, 0.7)';
+  ctx.shadowBlur = 6;
+  for (let i = 0; i < tris.length; i += 3) {
+    const a = points2D[tris[i]];
+    const b = points2D[tris[i + 1]];
+    const c = points2D[tris[i + 2]];
+    ctx.beginPath();
+    ctx.moveTo(a[0], a[1]);
+    ctx.lineTo(b[0], b[1]);
+    ctx.lineTo(c[0], c[1]);
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // Optional nodes for extra flair
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = 'rgba(0, 229, 255, 0.9)';
+  for (const p of points2D) {
+    ctx.beginPath();
+    ctx.arc(p[0], p[1], 2.2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
 }
 
 async function loop() {
@@ -99,7 +164,8 @@ async function loop() {
   const nowMs = performance.now();
   const result = handLandmarker.detectForVideo(video, nowMs);
   const landmarks = (result && result.landmarks && result.landmarks.length > 0) ? result.landmarks[0] : null;
-  drawLandmarks(landmarks);
+  const smoothed = smoothLandmarks(landmarks);
+  drawGloveMesh(smoothed);
   requestAnimationFrame(loop);
 }
 
@@ -116,7 +182,7 @@ window.addEventListener('orientationchange', () => {
   setTimeout(resizeCanvas, 300);
 });
 
-// Hint: on desktop, auto-start if permissions already granted
+// Auto-start when camera permission is already granted (desktop/dev convenience)
 if (navigator.permissions && navigator.permissions.query) {
   try {
     navigator.permissions.query({ name: 'camera' }).then((p) => {
