@@ -1,0 +1,81 @@
+/* Mobile-first full-screen vertical snap feed */
+:root { --rail-gap: 12px; --rail-size: 56px; }
+
+.feed {
+	height: 100svh;
+	overflow-y: auto;
+	scroll-snap-type: y mandatory;
+	-webkit-overflow-scrolling: touch;
+	background: #000;
+}
+
+.page {
+	height: 100svh;
+	scroll-snap-align: start;
+	position: relative;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.page__label {
+	position: absolute;
+	left: 12px;
+	bottom: 12px;
+	font-weight: 600;
+	text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.rail {
+	position: absolute;
+	right: 8px;
+	bottom: 72px;
+	display: flex;
+	flex-direction: column;
+	gap: var(--rail-gap);
+	align-items: center;
+}
+
+.like {
+	width: var(--rail-size);
+	height: var(--rail-size);
+	border-radius: 999px;
+	background: rgba(0,0,0,0.3);
+	backdrop-filter: blur(4px);
+	border: none;
+	color: rgba(255,255,255,0.75);
+	display: grid;
+	place-items: center;
+}
+
+.like--active { color: #ff3366; }
+
+.hearts {
+	position: absolute;
+	left: 0; right: 0; top: 0; bottom: 0;
+	pointer-events: none;
+}
+
+.heart {
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	transform: translate(-50%, -50%) scale(0.75) rotate(-15deg);
+	background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%23ff3366\"><path d=\"M12.001 4.529c2.349-2.532 6.16-2.532 8.509 0 2.349 2.532 2.349 6.639 0 9.171l-7.103 7.664a2 2 0 0 1-2.812 0L3.492 13.7c-2.349-2.532-2.349-6.64 0-9.172 2.349-2.532 6.16-2.532 8.509 0Z\"/></svg>') no-repeat center / contain;
+	animation: heart-pop 900ms ease-out forwards;
+	opacity: 0.9;
+}
+
+@keyframes heart-pop {
+	0% { transform: translate(-50%, -50%) scale(0.5) rotate(-15deg); opacity: 0; }
+	25% { transform: translate(-50%, -50%) scale(1.2) rotate(-10deg); opacity: 1; }
+	60% { transform: translate(-50%, -70%) scale(1) rotate(-5deg); opacity: 1; }
+	100% { transform: translate(-50%, -110%) scale(0.9) rotate(0deg); opacity: 0; }
+}
+
+/* Desktop tweaks */
+@media (min-width: 768px) {
+	:root { --rail-size: 64px; }
+	.page__label { left: 24px; bottom: 24px; font-size: 18px; }
+}
