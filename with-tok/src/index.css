@@ -1,0 +1,15 @@
+/* Reset & base */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+	margin: 0;
+	font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif;
+	background: #000;
+	color: #fff;
+}
+
+/* Remove default focus outlines only for mouse users */
+:focus:not(:focus-visible) { outline: none; }
+
+/* Smooth scrolling feel */
+html { scroll-behavior: smooth; }
