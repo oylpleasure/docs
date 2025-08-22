@@ -85,6 +85,32 @@ video, canvas {
 }
 .shutter span { font-size: 13px; opacity: .85; }
 
+.icon-btn.floating {
+  position: absolute;
+  right: 16px;
+  bottom: calc(env(safe-area-inset-bottom) + 112px);
+  z-index: 3;
+}
+
+.controls {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 12px 16px calc(env(safe-area-inset-bottom) + 12px) 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.28));
+  backdrop-filter: blur(10px);
+}
+.controls.hidden { display: none; }
+.controls-inner { max-width: 680px; margin: 0 auto; }
+.controls-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+.controls-row label { color: var(--muted); font-size: 13px; }
+.controls-row input[type="range"] { width: 100%; }
+
 @media (min-width: 768px) {
 }
 

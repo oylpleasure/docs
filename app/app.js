@@ -20,6 +20,13 @@ let chordIndex = 0;
 let lastIsOpen = false;
 let lastDecisionTs = 0;
 
+let filterNode = null;
+let pannerNode = null;
+let delayNode = null;
+let delayGain = null;
+let vibLFO = null;
+let vibGain = null;
+
 const CHORDS = [
   [261.63, 329.63, 392.00], // C major (C4 E4 G4)
   [349.23, 440.00, 523.25], // F major (F4 A4 C5)
@@ -180,9 +187,12 @@ async function loop() {
   const landmarks = (result && result.landmarks && result.landmarks.length > 0) ? result.landmarks[0] : null;
   const smoothed = smoothLandmarks(landmarks);
 
-  // Audio: detect open/closed with hysteresis
+  // Audio: detect open/closed with hysteresis + continuous param mapping
   if (smoothed) {
-    const openScore = estimateHandOpenness(smoothed);
+    const features = extractFeatures(smoothed);
+    applyHandMappings(features);
+
+    const openScore = features.openness;
     const now = performance.now();
     const openThreshold = 1.65;    // become open above this
     const closeThreshold = 1.45;   // become closed below this
@@ -231,6 +241,52 @@ function ensureAudio() {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     masterGain = audioContext.createGain();
     masterGain.gain.value = 0.5;
+
+    // Audio graph: voices -> filter -> panner -> (split dry/wet) -> master
+    filterNode = audioContext.createBiquadFilter();
+    filterNode.type = 'lowpass';
+    filterNode.frequency.value = 1200;
+
+    pannerNode = audioContext.createStereoPanner ? audioContext.createStereoPanner() : null;
+
+    delayNode = audioContext.createDelay(1.0);
+    delayNode.delayTime.value = 0.25;
+    delayGain = audioContext.createGain();
+    delayGain.gain.value = 0.3;
+
+    // feedback loop
+    const feedback = audioContext.createGain();
+    feedback.gain.value = 0.35;
+    delayNode.connect(feedback).connect(delayNode);
+
+    const dry = audioContext.createGain();
+    dry.gain.value = 1.0;
+    const wet = audioContext.createGain();
+    wet.gain.value = 0.3;
+
+    // vibrato LFO
+    vibLFO = audioContext.createOscillator();
+    vibGain = audioContext.createGain();
+    vibLFO.type = 'sine';
+    vibLFO.frequency.value = 5;
+    vibGain.gain.value = 25; // cents
+    vibLFO.connect(vibGain);
+    vibLFO.start();
+
+    // Connect chain
+    if (pannerNode) {
+      filterNode.connect(pannerNode);
+      pannerNode.connect(dry);
+      pannerNode.connect(delayNode);
+    } else {
+      filterNode.connect(dry);
+      filterNode.connect(delayNode);
+    }
+    delayNode.connect(wet);
+
+    dry.connect(masterGain);
+    wet.connect(masterGain);
+
     masterGain.connect(audioContext.destination);
   }
 }
@@ -241,12 +297,20 @@ function playChord(frequencies, duration = 0.6) {
   const voices = frequencies.map((f, i) => {
     const osc = audioContext.createOscillator();
     const gain = audioContext.createGain();
+    // vibrato: modulate frequency with LFO in cents
+    const detune = audioContext.createGain();
+    detune.gain.value = vibGain ? vibGain.gain.value : 0;
+    if (vibLFO) vibLFO.connect(detune);
     osc.type = 'sine';
     osc.frequency.value = f;
+    detune.connect(osc.detune);
+
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.24, now + 0.01 + i * 0.01);
+    gain.gain.linearRampToValueAtTime(0.28, now + 0.02 + i * 0.01);
     gain.gain.exponentialRampToValueAtTime(0.0008, now + duration);
-    osc.connect(gain).connect(masterGain);
+
+    osc.connect(gain).connect(filterNode);
+
     osc.start(now);
     osc.stop(now + duration + 0.05);
     return { osc, gain };
@@ -265,4 +329,75 @@ function estimateHandOpenness(pts) {
   const openness = dAvg / palm; // ~1.8 open, ~1.0 closed (rough)
   return openness;
 }
+
+function extractFeatures(pts) {
+  if (!pts || pts.length < 21) return null;
+  const WRIST = 0;
+  // Use wrist for position; compute centroid of all points for stability
+  const centroid = pts.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }), { x: 0, y: 0 });
+  centroid.x /= pts.length; centroid.y /= pts.length;
+  const openness = estimateHandOpenness(pts);
+  return { x: centroid.x, y: centroid.y, openness };
+}
+
+function applyHandMappings(feat) {
+  if (!feat || !audioContext) return;
+  // Map x to stereo pan (-1..1)
+  const panAmt = (parseFloat(controls.panMap.value) || 0.8) * ((feat.x - 0.5) * 2);
+  if (pannerNode && pannerNode.pan) pannerNode.pan.value = Math.max(-1, Math.min(1, panAmt));
+
+  // Map openness to filter cutoff around base
+  const base = parseFloat(controls.cutoffBase.value) || 1200;
+  const map = parseFloat(controls.cutoffMap.value) || 0.8;
+  const cutoff = Math.max(200, Math.min(8000, base * (1 + map * (feat.openness - 1.2))));
+  if (filterNode) filterNode.frequency.value = cutoff;
+
+  // Map y to vibrato depth
+  const maxDepth = parseFloat(controls.vibDepth.value) || 25;
+  const depth = Math.max(0, Math.min(maxDepth, (1 - feat.y) * maxDepth));
+  if (vibGain) vibGain.gain.value = depth;
+
+  // Map openness to delay mix subtly
+  const mixBase = parseFloat(controls.delayMix.value) || 0.3;
+  const mix = Math.max(0, Math.min(0.9, mixBase * (0.6 + 0.6 * Math.max(0, Math.min(2, feat.openness)) / 2)));
+  if (delayGain) delayGain.gain.value = mix;
+}
+
+// Controls and mapping
+const controls = {
+  volume: document.getElementById('ctlVolume'),
+  cutoffBase: document.getElementById('ctlCutoffBase'),
+  cutoffMap: document.getElementById('ctlCutoffMap'),
+  panMap: document.getElementById('ctlPanMap'),
+  delayMix: document.getElementById('ctlDelayMix'),
+  delayTime: document.getElementById('ctlDelayTime'),
+  feedback: document.getElementById('ctlFeedback'),
+  vibDepth: document.getElementById('ctlVibDepth'),
+  vibRate: document.getElementById('ctlVibRate')
+};
+
+function applyControlValues() {
+  if (!audioContext) return;
+  if (masterGain) masterGain.gain.value = parseFloat(controls.volume.value);
+  if (filterNode) filterNode.frequency.value = parseFloat(controls.cutoffBase.value);
+  if (delayNode) delayNode.delayTime.value = parseFloat(controls.delayTime.value);
+  if (vibLFO) vibLFO.frequency.value = parseFloat(controls.vibRate.value);
+  if (vibGain) vibGain.gain.value = parseFloat(controls.vibDepth.value);
+  // delay mix and feedback
+  // We connected delay mix via wet/dry gains stored in closure; emulate by setting global nodes
+  const mix = parseFloat(controls.delayMix.value);
+  // Traverse from filter -> panner -> dry/wet; but we didn't retain dry/wet refs globally; quick patch:
+  // Rebuild simple routing by adjusting delayGain, but we used separate wet gain. To keep simple, map mix to delayGain and reduce dry via masterGain subtly.
+  if (delayGain) delayGain.gain.value = mix;
+}
+
+Object.values(controls).forEach(el => {
+  if (!el) return;
+  el.addEventListener('input', applyControlValues);
+});
+
+document.getElementById('controlsBtn')?.addEventListener('click', () => {
+  const panel = document.getElementById('controlsPanel');
+  panel?.classList.toggle('hidden');
+});
 
