@@ -1,32 +1,30 @@
-# Mintlify Starter Kit
+# Hand Gesture Camera Prototype
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+Mobile-first, full-screen web app that opens your phone camera and detects two gestures in real-time: thumbs up and fist. Built with MediaPipe Tasks (Hand Landmarker) and deployable to Netlify as a static site.
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
-
-### Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+## Run locally
+Use a simple static server (required for camera permissions):
 
 ```
-npm i -g mintlify
+cd app
+python3 -m http.server 5173
 ```
 
-Run the following command at the root of your documentation (where docs.json is)
+Then open `http://localhost:5173`.
+
+## Deploy to Netlify
+With Netlify CLI:
 
 ```
-mintlify dev
+npm i -g netlify-cli
+netlify login
+netlify deploy --dir=app --message "gesture prototype"
+# optional production
+netlify deploy --prod --dir=app
 ```
 
-### Publishing Changes
+Or drag-and-drop the `app/` folder in the Netlify UI. Camera runs over HTTPS on your draft/production URL.
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
-
-#### Troubleshooting
-
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `docs.json`
+## Notes
+- On iOS Safari, ensure camera permission is allowed in Settings if blocked.
+- Detection is heuristic-based for a quick prototype; lighting and pose affect accuracy.
